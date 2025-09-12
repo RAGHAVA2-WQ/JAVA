@@ -1,0 +1,481 @@
+[12/09, 5:17 pm] SAI CHARAN: <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Capstone Project Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f9d1d7, #f6f0c4);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      width: 400px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 0.95em;
+      transition: border 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #ff6b6b;
+    }
+
+    textarea {
+      resize: none;
+      height: 70px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ff6b6b, #ffb88c);
+      color: white;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .error {
+      color: #e74c3c;
+      font-size: 0.8em;
+      margin-top: 3px;
+    }
+
+    .success-message {
+      text-align: center;
+      color: #27ae60;
+      margin-top: 10px;
+      display: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Register Now</h2>
+    <form id="capstoneRegistration">
+      
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" placeholder="Enter your full name">
+        <div class="error" id="fullNameError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com">
+        <div class="error" id="emailError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" placeholder="1234567890">
+        <div class="error" id="phoneError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Create Password</label>
+        <input type="password" id="password" placeholder="At least 6 characters">
+        <div class="error" id="passwordError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Role Applying For</label>
+        <select id="role">
+          <option value="">-- Select role --</option>
+          <option value="Developer">Developer</option>
+          <option value="Designer">Designer</option>
+          <option value="Tester">Tester</option>
+          <option value="Manager">Manager</option>
+        </select>
+        <div class="error" id="roleError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="bio">Short Bio</label>
+        <textarea id="bio" placeholder="Tell us something about yourself..."></textarea>
+        <div class="error" id="bioError"></div>
+      </div>
+
+      <button type="submit">Submit Registration</button>
+      <div class="success-message" id="successMessage">✅ Registration Successful!</div>
+
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("capstoneRegistration").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        // Get form values
+        let fullName = document.getElementById("fullName").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+        let password = document.getElementById("password").value.trim();
+        let role = document.getElementById("role").value;
+        let bio = document.getElementById("bio").value.trim();
+
+        // Error elements
+        let fullNameError = document.getElementById("fullNameError");
+        let emailError = document.getElementById("emailError");
+        let phoneError = document.getElementById("phoneError");
+        let passwordError = document.getElementById("passwordError");
+        let roleError = document.getElementById("roleError");
+        let bioError = document.getElementById("bioError");
+        let successMessage = document.getElementById("successMessage");
+
+        // Reset errors
+        fullNameError.textContent = "";
+        emailError.textContent = "";
+        phoneError.textContent = "";
+        passwordError.textContent = "";
+        roleError.textContent = "";
+        bioError.textContent = "";
+        successMessage.style.display = "none";
+
+        let isValid = true;
+
+        // Full Name Validation
+        if (fullName.length < 3) {
+            fullNameError.textContent = "Full name must be at least 3 characters.";
+            isValid = false;
+        }
+
+        // Email Validation
+        let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        if (!emailPattern.test(email)) {
+            emailError.textContent = "Enter a valid email.";
+            isValid = false;
+        }
+
+        // Phone Validation
+        let phonePattern = /^[0-9]{10}$/;
+        if (!phonePattern.test(phone)) {
+            phoneError.textContent = "Phone must be 10 digits.";
+            isValid = false;
+        }
+
+        // Password Validation
+        if (password.length < 6) {
+            passwordError.textContent = "Password must be at least 6 characters.";
+            isValid = false;
+        }
+
+        // Role Validation
+        if (role === "") {
+            roleError.textContent = "Please select a role.";
+            isValid = false;
+        }
+
+        // Bio Validation
+        if (bio.length < 10) {
+            bioError.textContent = "Bio must be at least 10 characters.";
+            isValid = false;
+        }
+
+        // If all valid
+        if (isValid) {
+            successMessage.style.display = "block";
+            document.getElementById("capstoneRegistration").reset();
+        }
+    });
+  </script>
+</body>
+</html>
+[12/09, 5:17 pm] SAI CHARAN: <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Capstone Project Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f9d1d7, #f6f0c4);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      width: 400px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 0.95em;
+      transition: border 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #ff6b6b;
+    }
+
+    textarea {
+      resize: none;
+      height: 70px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ff6b6b, #ffb88c);
+      color: white;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .error {
+      color: #e74c3c;
+      font-size: 0.8em;
+      margin-top: 3px;
+    }
+
+    .success-message {
+      text-align: center;
+      color: #27ae60;
+      margin-top: 10px;
+      display: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Register Now</h2>
+    <form id="capstoneRegistration">
+      
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" placeholder="Enter your full name">
+        <div class="error" id="fullNameError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com">
+        <div class="error" id="emailError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" placeholder="1234567890">
+        <div class="error" id="phoneError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Create Password</label>
+        <input type="password" id="password" placeholder="At least 6 characters">
+        <div class="error" id="passwordError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Role Applying For</label>
+        <select id="role">
+          <option value="">-- Select role --</option>
+          <option value="Developer">Developer</option>
+          <option value="Designer">Designer</option>
+          <option value="Tester">Tester</option>
+          <option value="Manager">Manager</option>
+        </select>
+        <div class="error" id="roleError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="bio">Short Bio</label>
+        <textarea id="bio" placeholder="Tell us something about yourself..."></textarea>
+        <div class="error" id="bioError"></div>
+      </div>
+
+      <button type="submit">Submit Registration</button>
+      <div class="success-message" id="successMessage">✅ Registration Successful!</div>
+
+    </form>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
+[12/09, 5:17 pm] SAI CHARAN: document.getElementById("capstoneRegistration").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    // Get form values
+    let fullName = document.getElementById("fullName").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let password = document.getElementById("password").value.trim();
+    let role = document.getElementById("role").value;
+    let bio = document.getElementById("bio").value.trim();
+
+    // Error elements
+    let fullNameError = document.getElementById("fullNameError");
+    let emailError = document.getElementById("emailError");
+    let phoneError = document.getElementById("phoneError");
+    let passwordError = document.getElementById("passwordError");
+    let roleError = document.getElementById("roleError");
+    let bioError = document.getElementById("bioError");
+    let successMessage = document.getElementById("successMessage");
+
+    // Reset errors
+    fullNameError.textContent = "";
+    emailError.textContent = "";
+    phoneError.textContent = "";
+    passwordError.textContent = "";
+    roleError.textContent = "";
+    bioError.textContent = "";
+    successMessage.style.display = "none";
+
+    let isValid = true;
+
+    // Full Name Validation
+    if (fullName.length < 3) {
+        fullNameError.textContent = "Full name must be at least 3 characters.";
+        isValid = false;
+    }
+
+    // Email Validation
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if (!emailPattern.test(email)) {
+        emailError.textContent = "Enter a valid email.";
+        isValid = false;
+    }
+
+    // Phone Validation
+    let phonePattern = /^[0-9]{10}$/;
+    if (!phonePattern.test(phone)) {
+        phoneError.textContent = "Phone must be 10 digits.";
+        isValid = false;
+    }
+
+    // Password Validation
+    if (password.length < 6) {
+        passwordError.textContent = "Password must be at least 6 characters.";
+        isValid = false;
+    }
+
+    // Role Validation
+    if (role === "") {
+        roleError.textContent = "Please select a role.";
+        isValid = false;
+    }
+
+    // Bio Validation
+    if (bio.length < 10) {
+        bioError.textContent = "Bio must be at least 10 characters.";
+        isValid = false;
+    }
+
+    // If all valid
+    if (isValid) {
+        successMessage.style.display = "block";
+        document.getElementById("capstoneRegistration").reset();
+    }
+});
