@@ -1,0 +1,54 @@
+//bfs using adjancey matrix//
+import java.util.*;
+
+public class GraphMatrix {
+
+    static void BFS(int graph[][], int start, int n) {
+        boolean visited[] = new boolean[n];
+        Queue<Integer> q = new LinkedList<>();
+
+        visited[start] = true;
+        q.add(start);
+
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            System.out.print(node + " ");
+
+            for (int i = 0; i < n; i++) {
+                if (graph[node][i] == 1 && !visited[i]) {
+                    visited[i] = true;
+                    q.add(i);
+                }
+            }
+        }
+    }
+
+    static void DFS(int graph[][], int node, boolean visited[], int n) {
+        visited[node] = true;
+        System.out.print(node + " ");
+
+        for (int i = 0; i < n; i++) {
+            if (graph[node][i] == 1 && !visited[i]) {
+                DFS(graph, i, visited, n);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int graph[][] = {
+            {0, 1, 1, 0},
+            {1, 0, 0, 1},
+            {1, 0, 0, 1},
+            {0, 1, 1, 0}
+        };
+
+        int n = 4;
+
+        System.out.print("BFT (BFS): ");
+        BFS(graph, 0, n);
+
+        System.out.print("\nDFT (DFS): ");
+        boolean visited[] = new boolean[n];
+        DFS(graph, 0, visited, n);
+    }
+}
