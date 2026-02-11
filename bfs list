@@ -1,0 +1,62 @@
+//bfs using list//
+import java.util.*;
+
+public class GraphList {
+
+    static void BFS(ArrayList<ArrayList<Integer>> graph, int start) {
+        boolean visited[] = new boolean[graph.size()];
+        Queue<Integer> q = new LinkedList<>();
+
+        visited[start] = true;
+        q.add(start);
+
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            System.out.print(node + " ");
+
+            for (int adj : graph.get(node)) {
+                if (!visited[adj]) {
+                    visited[adj] = true;
+                    q.add(adj);
+                }
+            }
+        }
+    }
+
+    static void DFS(ArrayList<ArrayList<Integer>> graph, int node, boolean visited[]) {
+        visited[node] = true;
+        System.out.print(node + " ");
+
+        for (int adj : graph.get(node)) {
+            if (!visited[adj]) {
+                DFS(graph, adj, visited);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        int n = 4;
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+
+        // Add edges
+        graph.get(0).add(1);
+        graph.get(0).add(2);
+        graph.get(1).add(0);
+        graph.get(1).add(3);
+        graph.get(2).add(0);
+        graph.get(2).add(3);
+        graph.get(3).add(1);
+        graph.get(3).add(2);
+
+        System.out.print("BFT (BFS): ");
+        BFS(graph, 0);
+
+        System.out.print("\nDFT (DFS): ");
+        boolean visited[] = new boolean[n];
+        DFS(graph, 0, visited);
+    }
+}
