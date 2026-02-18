@@ -1,0 +1,57 @@
+//0/1 knapsack problem//
+import java.util.Scanner;
+
+public class Knap {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+//0/1 knap sack problem//
+import java.util.scanner;
+class knap {
+    public static void main(String[] args) {
+        scanner sc=new scanner (System.in);
+        int n=sc.nextint90;
+        int [] wt=new int [n];
+        int val[]=new int [n];
+        for (int i=0; i<n;i++) Wt[i]=sc.nextint();
+        for (int i=0; i<n;i++) va[i]=sc.nextint();
+
+        int W=sc.nextInt();
+        int[][] dp=new int [n+1]
+    }
+}
+        int n = sc.nextInt();
+        int[] wt = new int[n];
+        int[] val = new int[n];
+
+        for (int i = 0; i < n; i++) wt[i] = sc.nextInt();
+        for (int i = 0; i < n; i++) val[i] = sc.nextInt();
+
+        int W = sc.nextInt();
+
+        int[][] dp = new int[n + 1][W + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int w = 1; w <= W; w++) {
+                if (wt[i - 1] <= w)
+                    dp[i][w] = Math.max(val[i - 1] + dp[i - 1][w - wt[i - 1]],
+                                        dp[i - 1][w]);
+                else
+                    dp[i][w] = dp[i - 1][w];
+            }
+        }
+
+        System.out.println("Maximum Value = " + dp[n][W]);
+
+        // Traceback to find selected items
+        int w = W;
+        System.out.println("Selected items:");
+
+        for (int i = n; i > 0; i--) {
+            if (dp[i][w] != dp[i - 1][w]) {
+                System.out.println("Weight = " + wt[i - 1] +
+                                   ", Value = " + val[i - 1]);
+                w -= wt[i - 1];
+            }
+        }
+    }
+}
