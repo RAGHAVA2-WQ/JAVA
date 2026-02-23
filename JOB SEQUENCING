@@ -1,0 +1,51 @@
+/job sequencing using java//
+class Job {
+    char id;
+    int d, p;
+}
+
+public class JobSeq {
+
+    public static void main(String args[]) {
+
+        Job j[] = new Job[5];
+        char id[] = {'A','B','C','D','E'};
+        int d[]  = {2,1,2,1,3};
+        int p[]  = {100,19,27,25,15};
+
+        // Store jobs
+        for(int i=0;i<5;i++){
+            j[i] = new Job();
+            j[i].id=id[i]; j[i].d=d[i]; j[i].p=p[i];
+        }
+
+        // Sort by profit (Descending)
+        for(int i=0;i<5;i++)
+            for(int k=i+1;k<5;k++)
+                if(j[i].p < j[k].p){
+                    Job t=j[i]; j[i]=j[k]; j[k]=t;
+                }
+
+        char slot[] = new char[3];
+        boolean used[] = new boolean[3];
+        int profit=0;
+
+        // Job scheduling
+        for(int i=0;i<5;i++){
+            for(int k=j[i].d-1;k>=0;k--){
+                if(!used[k]){
+                    used[k]=true;
+                    slot[k]=j[i].id;
+                    profit += j[i].p;
+                    break;
+                }
+            }
+        }
+
+        System.out.print("Jobs: ");
+        for(int i=0;i<3;i++)
+            if(used[i]) System.out.print(slot[i]+" ");
+
+        System.out.println("\nProfit = "+profit);
+    }
+}
